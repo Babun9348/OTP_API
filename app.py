@@ -51,26 +51,6 @@ def send_otp():
     )
 
 
-@app.post("/otp/verify")
-def verify_otp():
-    data = request.get_json(silent=True) or {}
-    phone = str(data.get("phone", "")).strip()
-    otp_in = str(data.get("otp", "")).strip()
-
-    rec = OTP_STORE.get(phone)
-    if not rec:
-        return err("OTP_NOT_FOUND", "No OTP requested for this phone.", 404)
-
-    if time.time() > rec["expires_at"]:
-        OTP_STORE.pop(phone, None)
-        return err("OTP_EXPIRED", "OTP expired. Please request again.", 410)
-
-    if otp_in == rec["otp"]:
-        OTP_STORE.pop(phone, None)
-        return ok(message="OTP verified")
-
-    return err("OTP_MISMATCH", "Invalid OTP.", 401)
-
 
 @app.get("/loans/accounts")
 def loan_accounts():
