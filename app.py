@@ -3,7 +3,6 @@ from flask_cors import CORS
 import os
 import random
 import time
-
 app = Flask(__name__)
 CORS(app)
 
