@@ -6,6 +6,7 @@ import time
 app = Flask(__name__)
 CORS(app)
 
+
 PRESET_OTPS = ["1234", "5678", "7889", "1209"]
 OTP_STORE = {}
 
