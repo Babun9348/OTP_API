@@ -52,11 +52,12 @@ def send_otp():
 
 
 
-@app.get("/loans/accounts")
+@app.post("/loans/accounts")
 def loan_accounts():
-    phone = (request.args.get("phone", "") or "").strip()
-    dob = (request.args.get("dob", "") or "").strip()
-    full = (request.args.get("full", "false").lower() in ("1", "true", "yes"))
+    data = request.get_json(silent=True) or {}
+    phone = str(data.get("phone", "")).strip()
+    dob = str(data.get("dob", "")).strip()
+    full = bool(data.get("full", False))
 
     if not phone or not dob:
         return err("AUTH_REQUIRED", "phone and dob are required.", 401)
@@ -65,8 +66,8 @@ def loan_accounts():
         {"loan_account_id": "LA1001", "loan_type": "Home Loan", "tenure": "120 months"},
         {"loan_account_id": "LA2002", "loan_type": "Personal Loan", "tenure": "36 months"}
     ]
-    if not full:
-        return ok(accounts=accounts_min)
+    return ok({"accounts": accounts_min})
+
     accounts_big = []
     for a in accounts_min:
         big = {
