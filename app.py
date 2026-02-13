@@ -89,7 +89,6 @@ def loan_accounts():
 
     if not full:
         return ok(accounts=accounts_min)
-
     accounts_big = []
     for a in accounts_min:
         big = {
