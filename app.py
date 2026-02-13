@@ -72,7 +72,7 @@ def verify_otp():
     return err("OTP_MISMATCH", "Invalid OTP.", 401)
 
 
-@app.post("/loans/accounts")
+@app.get("/loans/accounts")
 def loan_accounts():
     data = request.get_json(silent=True) or {}
     phone = str(data.get("phone", "")).strip()
